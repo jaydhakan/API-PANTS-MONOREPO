@@ -9,10 +9,30 @@ from libs.utils.jwt.src.helpers import jwt_helpers
 
 class AuthService:
     @staticmethod
+    def generate_token_for_swagger(form_data):
+        user = users_repository.find_one({'userId': form_data.username})
+        if user and pbkdf2_sha256.verify(
+                form_data.password, user['password']
+        ):
+            user_oid = str(user['_id'])
+            access_token = jwt_helpers.create_access_token(
+                {'identity': user_oid}
+            )
+            users_repository.update_one(
+                {'_id': ObjectId(user_oid)}, {'$push': {'tokens': access_token}}
+            )
+            return {"access_token": access_token, "token_type": "bearer"}
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+
+    @staticmethod
     def generate_token(request_date: UserLoginReqBody):
         user = users_repository.find_one({'userId': request_date.userId})
         if user and pbkdf2_sha256.verify(
-            request_date.password, user['password']
+                request_date.password, user['password']
         ):
             user_oid = str(user['_id'])
             access_token = jwt_helpers.create_access_token(

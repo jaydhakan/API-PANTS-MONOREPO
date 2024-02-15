@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from apps.auth.src.dto import UserLoginReqBody
 from apps.auth.src.service import auth_service
@@ -8,6 +8,11 @@ from libs.utils.jwt.src.helpers import jwt_helpers
 
 auth_route = APIRouter(prefix='/auth', tags=['Authentication'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
+
+@auth_route.post("/token")  # separate route for FastAPI swagger login
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    return auth_service.generate_token_for_swagger(form_data)
 
 
 @auth_route.post('/login')
