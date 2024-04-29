@@ -10,6 +10,6 @@ if not path.exists(env_path):
 
 config = dotenv_values(env_path)
 
-ENVIRONMENT = Environment(config['ENVIRONMENT'])
-HOST = config.get('HOST', '127.0.0.1')
-PORT = int(config.get('PORT', 3000))
+ENVIRONMENT = Environment(config.get('ENVIRONMENT', 'development'))
+HOST = config.get('HOST', '0.0.0.0')
+PORT = int(config.get('PORT', '5555'))

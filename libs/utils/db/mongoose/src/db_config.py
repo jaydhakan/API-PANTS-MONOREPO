@@ -9,5 +9,5 @@ if not path.exists(env_path):
 
 config = dotenv_values(env_path)
 
-DATABASE_URL = config['DATABASE_URL']
-DATABASE_NAME = config['DATABASE_NAME']
+DATABASE_URL = config.get('DATABASE_URL', 'mongodb://localhost:27017')
+DATABASE_NAME = config.get('DATABASE_NAME', 'api-pants-monorepo-db')

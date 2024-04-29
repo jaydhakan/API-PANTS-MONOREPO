@@ -9,7 +9,9 @@ if not path.exists(env_path):
 
 config = dotenv_values(env_path)
 
-JWT_SECRET_KEY = config['JWT_SECRET_KEY']
-ALGORITHM = config['ALGORITHM']
+JWT_SECRET_KEY = config.get('JWT_SECRET_KEY', 'test123')
+ALGORITHM = config.get('ALGORITHM', 'HS256')
 
-ACCESS_TOKEN_EXPIRE_IN_MINUTES = int(config['ACCESS_TOKEN_EXPIRE_IN_MINUTES'])
+ACCESS_TOKEN_EXPIRE_IN_MINUTES = int(
+    config.get('ACCESS_TOKEN_EXPIRE_IN_MINUTES', '10')
+)

@@ -34,11 +34,9 @@ class RegisterUserReqBody(BaseModel):
         min_length=1,
         max_length=20
     )
-    privilege: Role = Field(
-        description='What is you role',
-        example=Role.SUPER_ADMIN.value,
-        min_length=4,
-        max_length=12
+    privilege: str = Field(
+        description='Specify your role',
+        example=Role.SUPER_ADMIN.value
     )
 
 
