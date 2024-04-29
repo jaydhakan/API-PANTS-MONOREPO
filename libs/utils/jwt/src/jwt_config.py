@@ -1,3 +1,4 @@
+import uuid
 from os import path
 
 from dotenv import dotenv_values
@@ -9,7 +10,7 @@ if not path.exists(env_path):
 
 config = dotenv_values(env_path)
 
-JWT_SECRET_KEY = config.get('JWT_SECRET_KEY', 'test123')
+JWT_SECRET_KEY = config.get('JWT_SECRET_KEY', f'{uuid.uuid4()}')
 ALGORITHM = config.get('ALGORITHM', 'HS256')
 
 ACCESS_TOKEN_EXPIRE_IN_MINUTES = int(
