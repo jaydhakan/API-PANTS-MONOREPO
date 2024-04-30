@@ -10,6 +10,11 @@ auth_route = APIRouter(tags=['Authentication'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
 
+@auth_route.get('/{path:path}', include_in_schema=False)
+def default_route():
+    return {'message': 'Server is up and running 🚀🚀🚀'}
+
+
 @auth_route.post("/token")  # separate route for FastAPI swagger login
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return auth_service.generate_token_for_swagger(form_data)
