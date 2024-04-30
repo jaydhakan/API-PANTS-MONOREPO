@@ -22,9 +22,9 @@ def get_users(
     return users
 
 
-@users_route.get('/{user_id}')
-def get_user(user_id: str):
-    user = users_service.find_user(user_id)
+@users_route.get('/')
+def get_user(access_token: str = Depends(jwt_helpers.is_token_valid)):
+    user = users_service.find_user(access_token)
     return user, 200
 
 
