@@ -30,8 +30,10 @@ class UsersService:
             return {'message': f'Error message: {str(e)}'}
 
     @staticmethod
-    def find_user(user_id: str):
+    def find_user(access_token: str):
         try:
+            payload = jwt_helpers.decode_jwt_token(access_token)
+            user_id = payload.get('identity')
             user = users_repository.find_one(
                 {'_id': ObjectId(user_id)}, {'password': 0}
             )

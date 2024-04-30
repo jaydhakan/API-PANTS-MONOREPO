@@ -18,7 +18,7 @@ class RegisterUserReqBody(BaseModel):
     )
     userId: str = Field(
         description="User's id.",
-        example='jaydhakan1234',
+        example='jay1234',
         min_length=1,
         max_length=20
     )
@@ -30,7 +30,7 @@ class RegisterUserReqBody(BaseModel):
     )
     password: str = Field(
         description='Your password',
-        example='xyz1234',
+        example='jay1234',
         min_length=1,
         max_length=20
     )

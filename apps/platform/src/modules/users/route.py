@@ -12,7 +12,7 @@ users_route = APIRouter(prefix='/users', tags=['Users'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
 
-@users_route.get('/')
+@users_route.get('/get_all')
 @limiter.limit('5/minute')
 def get_users(
     request: Request,
@@ -22,9 +22,9 @@ def get_users(
     return users
 
 
-@users_route.get('/{user_id}')
-def get_user(user_id: str):
-    user = users_service.find_user(user_id)
+@users_route.get('/')
+def get_user(access_token: str = Depends(jwt_helpers.is_token_valid)):
+    user = users_service.find_user(access_token)
     return user, 200
 
 
